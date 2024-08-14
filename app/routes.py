@@ -9,6 +9,8 @@ ERROR_MISSING_NAME = "Missing required parameter: 'name'"
 ERROR_MISSING_DESCRIPTION = "Missing required parameter: 'description'"
 
 
+# Prueba de la ruta
+
 def validate_item_data(data):
     if not data:
         abort(400, description=ERROR_NO_DATA)
