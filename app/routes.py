@@ -8,6 +8,7 @@ ERROR_NO_DATA = "No data provided"
 ERROR_MISSING_NAME = "Missing required parameter: 'name'"
 ERROR_MISSING_DESCRIPTION = "Missing required parameter: 'description'"
 
+
 def validate_item_data(data):
     if not data:
         abort(400, description=ERROR_NO_DATA)
@@ -15,6 +16,7 @@ def validate_item_data(data):
         abort(400, description=ERROR_MISSING_NAME)
     if 'description' not in data:
         abort(400, description=ERROR_MISSING_DESCRIPTION)
+
 
 @main_bp.route('/items', methods=['POST'])
 def create_item():
@@ -43,17 +45,20 @@ def create_item():
         print(f"Exception occurred: {e}")
         return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
+
 @main_bp.route('/items', methods=['GET'])
 def get_items():
     items = Item.query.all()
     results = [{"id": item.id, "name": item.name, "description": item.description} for item in items]
     return jsonify(results), 200
 
+
 @main_bp.route('/items/<int:item_id>', methods=['GET'])
 def get_item(item_id):
     item = Item.query.get_or_404(item_id)
     result = {"id": item.id, "name": item.name, "description": item.description}
     return jsonify(result), 200
+
 
 @main_bp.route('/items/<int:item_id>', methods=['PUT'])
 def update_item(item_id):
@@ -65,6 +70,7 @@ def update_item(item_id):
     item.description = data['description']
     db.session.commit()
     return jsonify({'message': 'Item updated successfully'}), 200
+
 
 @main_bp.route('/items/<int:item_id>', methods=['DELETE'])
 def delete_item(item_id):
